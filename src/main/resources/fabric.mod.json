@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"id": "scythemod",
+	"version": "${version}",
+	"name": "ManePear's Scythe Mod",
+	"description": "A scythe with mace attack, shield disabling, and the custom Reaping enchantment.",
+	"authors": [
+		"ManePear"
+	],
+	"license": "MIT",
+	"icon": "assets/scythemod/textures/item/scythe.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.manepear.scythe.ScytheMod"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.18.1",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

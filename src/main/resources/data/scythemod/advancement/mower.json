@@ -1,0 +1,37 @@
+{
+	"parent": "minecraft:adventure/root",
+	"display": {
+		"icon": {
+			"id": "scythemod:scythe"
+		},
+		"title": {
+			"translate": "advancements.scythemod.mower.title"
+		},
+		"description": {
+			"translate": "advancements.scythemod.mower.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"craft_scythe": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"scythemod:scythe"
+						]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"craft_scythe"
+		]
+	]
+}
