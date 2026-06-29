@@ -2,6 +2,7 @@ package com.manepear.scythe;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,9 +19,9 @@ public class ScytheReapingHandler {
 			RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(ScytheMod.MOD_ID, "reaping"));
 
 	public static void register() {
-		ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamage, damageTaken, blocked) -> {
-			handleReaping(entity, source);
-		});
+		ServerLivingEntityEvents.AFTER_DAMAGE.register(
+				(entity, source, baseDamageTaken, damageTaken, blocked) ->
+						handleReaping(entity, source));
 	}
 
 	private static void handleReaping(LivingEntity victim, DamageSource source) {
@@ -30,7 +31,7 @@ public class ScytheReapingHandler {
 		if (!(source.getAttacker() instanceof PlayerEntity attacker)) {
 			return;
 		}
-		if (!(attacker.getWorld() instanceof ServerWorld serverWorld)) {
+		if (!(attacker.getEntityWorld() instanceof ServerWorld serverWorld)) {
 			return;
 		}
 
@@ -41,20 +42,18 @@ public class ScytheReapingHandler {
 
 		RegistryEntry<Enchantment> reaping = serverWorld.getRegistryManager()
 				.getOrThrow(RegistryKeys.ENCHANTMENT)
-				.getEntry(REAPING_KEY)
+				.getOptional(REAPING_KEY)
 				.orElse(null);
 		if (reaping == null) {
 			return;
 		}
 
-		int level = net.minecraft.enchantment.EnchantmentHelper.getLevel(reaping, weapon);
+		int level = EnchantmentHelper.getLevel(reaping, weapon);
 		if (level <= 0) {
 			return;
 		}
 
-		float stolen = level;
-		attacker.heal(stolen);
-
+		attacker.heal(level);
 		ScytheAdvancements.grantVampire(attacker);
 	}
 }
